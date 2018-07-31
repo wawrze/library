@@ -1,4 +1,4 @@
 package com.wawrzelibrary.library.exeptions;
 
-public class RentNotFoundException {
+public class RentNotFoundException extends Exception {
 }

@@ -1,5 +1,7 @@
-package com.wawrzelibrary.library.domains;
+package com.wawrzelibrary.library.domains.rents;
 
+import com.wawrzelibrary.library.domains.users.User;
+import com.wawrzelibrary.library.domains.books.Book;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +17,7 @@ public class Rent {
 
     public Rent(User user, Book book, LocalDate rentFinishDate) {
         this.user = user;
-//        this.book = book;
+        this.book = book;
         this.rentStartDate = LocalDate.now();
         this.rentFinishDate = rentFinishDate;
     }

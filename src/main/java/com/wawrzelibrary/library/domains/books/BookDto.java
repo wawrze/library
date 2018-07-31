@@ -1,5 +1,6 @@
-package com.wawrzelibrary.library.domains;
+package com.wawrzelibrary.library.domains.books;
 
+import com.wawrzelibrary.library.domains.titles.Title;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
