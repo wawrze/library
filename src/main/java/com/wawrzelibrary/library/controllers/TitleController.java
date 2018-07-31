@@ -3,7 +3,7 @@ package com.wawrzelibrary.library.controllers;
 import com.wawrzelibrary.library.domains.titles.TitleDto;
 import com.wawrzelibrary.library.exeptions.TitleNotFoundException;
 import com.wawrzelibrary.library.mappers.TitleMapper;
-import com.wawrzelibrary.library.services.DbService;
+import com.wawrzelibrary.library.services.TitleDbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +17,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class TitleController {
 
     @Autowired
-    private DbService service;
+    private TitleDbService service;
 
     @Autowired
     private TitleMapper titleMapper;

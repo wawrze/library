@@ -3,7 +3,7 @@ package com.wawrzelibrary.library.controllers;
 import com.wawrzelibrary.library.domains.users.UserDto;
 import com.wawrzelibrary.library.exeptions.UserNotFoundException;
 import com.wawrzelibrary.library.mappers.UserMapper;
-import com.wawrzelibrary.library.services.DbService;
+import com.wawrzelibrary.library.services.UserDbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +17,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class UserController {
 
     @Autowired
-    private DbService service;
+    private UserDbService service;
 
     @Autowired
     private UserMapper userMapper;
