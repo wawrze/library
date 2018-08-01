@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -63,8 +64,10 @@ public class RentRepositoryTestSuite {
         bookRepository.save(book2);
         bookId1 = book1.getId();
         bookId2 = book2.getId();
-        rent1 = new Rent(user1, book1, LocalDate.now().plusDays(10L));
-        rent2 = new Rent(user2, book2, LocalDate.now().plusDays(10L));
+        rent1 = new Rent(user1, book1, new Date(LocalDate.now().getYear() - 1900,
+                LocalDate.now().getMonthValue() - 1, LocalDate.now().getDayOfMonth() + 10));
+        rent2 = new Rent(user2, book2, new Date(LocalDate.now().getYear() - 1900,
+                LocalDate.now().getMonthValue() - 1, LocalDate.now().getDayOfMonth() + 10));
         rentRepository.save(rent1);
         rentRepository.save(rent2);
         rentId1 = rent1.getId();
@@ -96,7 +99,8 @@ public class RentRepositoryTestSuite {
         int userId;
         int bookId;
         int rentId;
-        LocalDate rentFinishDate = LocalDate.now().plusDays(10);
+        Date rentFinishDate = new Date(LocalDate.now().getYear() - 1900,
+                LocalDate.now().getMonthValue() - 1, LocalDate.now().getDayOfMonth() + 10);
         //When
         titleRepository.save(title);
         titleId = title.getId();

@@ -1,14 +1,12 @@
 package com.wawrzelibrary.library.domains.users;
 
-import com.wawrzelibrary.library.domains.rents.Rent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -19,8 +17,8 @@ public class User {
     public User(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.accountCreationDate = LocalDate.now();
-        this.rentList = new ArrayList<>();
+        this.accountCreationDate = new Date(LocalDate.now().getYear() - 1900,
+                LocalDate.now().getMonthValue() - 1, LocalDate.now().getDayOfMonth());
     }
 
     @Id
@@ -35,14 +33,6 @@ public class User {
     private String lastName;
 
     @Column(name = "accountCreationDate")
-    private LocalDate accountCreationDate;
-
-    @OneToMany(
-            targetEntity = Rent.class,
-            mappedBy = "user",
-            fetch = FetchType.EAGER
-    )
-    @Column(name = "rentList")
-    private List<Rent> rentList;
+    private Date accountCreationDate;
 
 }

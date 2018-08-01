@@ -12,7 +12,7 @@ import java.util.List;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping("/rent")
+@RequestMapping("/rents")
 @CrossOrigin(origins = "*")
 public class RentController {
 

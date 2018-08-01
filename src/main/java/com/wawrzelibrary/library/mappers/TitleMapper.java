@@ -11,19 +11,17 @@ package com.wawrzelibrary.library.mappers;
 public class TitleMapper {
 
     public Title mapToTitle(final TitleDto titleDto) {
-        return new Title(titleDto.getId(), titleDto.getTitle(), titleDto.getAuthor(), titleDto.getPublicationDate(),
-                titleDto.getBookList());
+        return new Title(titleDto.getId(), titleDto.getTitle(), titleDto.getAuthor(), titleDto.getPublicationYear());
     }
 
     public TitleDto mapToTitleDto(final Title title) {
-        return new TitleDto(title.getId(), title.getTitle(), title.getAuthor(), title.getPublicationYear(),
-                title.getBookList());
+        return new TitleDto(title.getId(), title.getTitle(), title.getAuthor(), title.getPublicationYear());
     }
 
     public List<TitleDto> mapToTitleDtoList(final List<Title> titleList) {
         return titleList.stream()
                 .map(title -> new TitleDto(title.getId(), title.getTitle(), title.getAuthor(),
-                        title.getPublicationYear(), title.getBookList()))
+                        title.getPublicationYear()))
                 .collect(Collectors.toList());
     }
 

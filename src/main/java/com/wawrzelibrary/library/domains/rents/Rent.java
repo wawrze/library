@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.time.LocalDate;
 
 @Getter
@@ -15,10 +16,11 @@ import java.time.LocalDate;
 @Entity(name="rents")
 public class Rent {
 
-    public Rent(User user, Book book, LocalDate rentFinishDate) {
+    public Rent(User user, Book book, Date rentFinishDate) {
         this.user = user;
         this.book = book;
-        this.rentStartDate = LocalDate.now();
+        this.rentStartDate = new Date(LocalDate.now().getYear() - 1900,
+                LocalDate.now().getMonthValue() - 1, LocalDate.now().getDayOfMonth());
         this.rentFinishDate = rentFinishDate;
     }
 
@@ -31,14 +33,14 @@ public class Rent {
     @JoinColumn(name = "userId")
     private User user;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "bookId")
     private Book book;
 
     @Column(name = "rentStartedDate")
-    private LocalDate rentStartDate;
+    private Date rentStartDate;
 
     @Column(name = "rentFinishDate")
-    private LocalDate rentFinishDate;
+    private Date rentFinishDate;
 
 }

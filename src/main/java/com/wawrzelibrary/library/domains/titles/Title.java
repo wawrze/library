@@ -1,13 +1,10 @@
 package com.wawrzelibrary.library.domains.titles;
 
-import com.wawrzelibrary.library.domains.books.Book;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -19,7 +16,6 @@ public class Title {
         this.title = title;
         this.author = author;
         this.publicationYear = publicationYear;
-        this.bookList = new ArrayList<>();
     }
 
     @Id
@@ -35,13 +31,5 @@ public class Title {
 
     @Column(name = "publicationYear")
     private int publicationYear;
-
-    @OneToMany(
-            targetEntity = Book.class,
-            mappedBy = "title",
-            fetch = FetchType.EAGER
-    )
-    @Column(name = "bookList")
-    private List<Book> bookList;
 
 }
