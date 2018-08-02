@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class TitleRepositoryTestSuite {
 
     @Autowired
@@ -35,9 +37,6 @@ public class TitleRepositoryTestSuite {
         resultList = titleRepository.findAll();
         //Then
         Assert.assertEquals(2, resultList.size());
-        //CleanUp
-        titleRepository.delete(id1);
-        titleRepository.delete(id2);
     }
 
     @Test
@@ -67,8 +66,6 @@ public class TitleRepositoryTestSuite {
         Assert.assertEquals(resultTitle1.getAuthor(), title.getAuthor());
         Assert.assertEquals(resultTitle1.getPublicationYear(), title.getPublicationYear());
         Assert.assertTrue(resultNoTitle);
-        //CleanUp
-        titleRepository.delete(id);
     }
 
 }

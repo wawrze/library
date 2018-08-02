@@ -12,10 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class BookRepositoryTestSuite {
 
     @Autowired
@@ -45,10 +47,6 @@ public class BookRepositoryTestSuite {
         resultList = bookRepository.findAll();
         //Then
         Assert.assertEquals(2, resultList.size());
-        //CleanUp
-        bookRepository.delete(bookId1);
-        bookRepository.delete(bookId2);
-        titleRepository.delete(titleId);
     }
 
     @Test
@@ -82,9 +80,6 @@ public class BookRepositoryTestSuite {
         Assert.assertEquals(resultBook1.getTitle().getId(), book.getTitle().getId());
         Assert.assertEquals(resultBook1.getStatus(), book.getStatus());
         Assert.assertTrue(resultNoBook);
-        //CleanUp
-        bookRepository.delete(bookId);
-        titleRepository.delete(titleId);
     }
 
 }

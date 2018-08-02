@@ -16,12 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class RentRepositoryTestSuite {
 
     @Autowired
@@ -75,14 +77,6 @@ public class RentRepositoryTestSuite {
         resultList = rentRepository.findAll();
         //Then
         Assert.assertEquals(2, resultList.size());
-        //CleanUp
-        rentRepository.delete(rentId1);
-        rentRepository.delete(rentId2);
-        bookRepository.delete(bookId1);
-        bookRepository.delete(bookId2);
-        titleRepository.delete(titleId);
-        userRepository.delete(userId1);
-        userRepository.delete(userId2);
     }
 
     @Test
@@ -128,11 +122,6 @@ public class RentRepositoryTestSuite {
         Assert.assertEquals(resultRent1.getBook().getId(), rent.getBook().getId());
         Assert.assertEquals(resultRent1.getRentFinishDate(), rentFinishDate);
         Assert.assertTrue(resultNoRent);
-        //CleanUp
-        rentRepository.delete(rentId);
-        bookRepository.delete(bookId);
-        titleRepository.delete(titleId);
-        userRepository.delete(userId);
     }
 
 }

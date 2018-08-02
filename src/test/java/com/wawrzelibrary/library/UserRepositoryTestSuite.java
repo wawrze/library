@@ -3,17 +3,18 @@ package com.wawrzelibrary.library;
 import com.wawrzelibrary.library.domains.users.User;
 import com.wawrzelibrary.library.exeptions.UserNotFoundException;
 import com.wawrzelibrary.library.repositories.UserRepository;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class UserRepositoryTestSuite {
 
     @Autowired
@@ -35,9 +36,6 @@ public class UserRepositoryTestSuite {
         resultList = userRepository.findAll();
         //Then
         Assert.assertEquals(2, resultList.size());
-        //CleanUp
-        userRepository.delete(id1);
-        userRepository.delete(id2);
     }
 
     @Test
@@ -67,8 +65,6 @@ public class UserRepositoryTestSuite {
         Assert.assertEquals(resultUser1.getLastName(), user.getLastName());
         Assert.assertEquals(resultUser1.getAccountCreationDate(), user.getAccountCreationDate());
         Assert.assertTrue(resultNoUser);
-        //CleanUp
-        userRepository.delete(id);
     }
 
 }
