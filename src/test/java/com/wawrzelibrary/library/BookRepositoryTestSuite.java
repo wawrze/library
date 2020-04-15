@@ -69,12 +69,11 @@ public class BookRepositoryTestSuite {
         bookId = book.getId();
         try {
             resultBook1 = bookRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
+        } catch (BookNotFoundException e) {
         }
-        catch(BookNotFoundException e) {}
         try {
             resultBook2 = bookRepository.findById(0).orElseThrow(BookNotFoundException::new);
-        }
-        catch (BookNotFoundException e) {
+        } catch (BookNotFoundException e) {
             resultNoBook = true;
         }
         //Then

@@ -23,4 +23,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Override
     void delete(Integer id);
 
+    User findByLogin(String login);
+
 }

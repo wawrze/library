@@ -10,24 +10,22 @@ import javax.persistence.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name="books")
+@Entity(name = "books")
 public class Book {
-
-    public Book(Title title, String status) {
-        this.title = title;
-        this.status = status;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
-
     @ManyToOne
     @JoinColumn(name = "bookTitle")
     private Title title;
-
     @Column(name = "bookStatus")
     private String status;
+
+    public Book(Title title, String status) {
+        this.title = title;
+        this.status = status;
+    }
 
 }

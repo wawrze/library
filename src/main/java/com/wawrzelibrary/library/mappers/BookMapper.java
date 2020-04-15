@@ -1,11 +1,11 @@
 package com.wawrzelibrary.library.mappers;
 
-        import com.wawrzelibrary.library.domains.books.Book;
-        import com.wawrzelibrary.library.domains.books.BookDto;
-        import org.springframework.stereotype.Component;
+import com.wawrzelibrary.library.domains.books.Book;
+import com.wawrzelibrary.library.domains.books.BookDto;
+import org.springframework.stereotype.Component;
 
-        import java.util.List;
-        import java.util.stream.Collectors;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class BookMapper {

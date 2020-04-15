@@ -3,7 +3,8 @@ package com.wawrzelibrary.library;
 import com.wawrzelibrary.library.domains.users.User;
 import com.wawrzelibrary.library.exeptions.UserNotFoundException;
 import com.wawrzelibrary.library.repositories.UserRepository;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -53,12 +54,11 @@ public class UserRepositoryTestSuite {
         id = user.getId();
         try {
             resultUser1 = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        } catch (UserNotFoundException e) {
         }
-        catch(UserNotFoundException e) {}
         try {
             resultUser2 = userRepository.findById(0).orElseThrow(UserNotFoundException::new);
-        }
-        catch(UserNotFoundException e) {
+        } catch (UserNotFoundException e) {
             resultNoUser = true;
         }
         //Then

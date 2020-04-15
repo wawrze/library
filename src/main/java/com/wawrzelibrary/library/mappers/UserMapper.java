@@ -11,18 +11,30 @@ import java.util.stream.Collectors;
 public class UserMapper {
 
     public User mapToUser(final UserDto userDto) {
-        return new User(userDto.getId(), userDto.getFirstName(), userDto.getLastName(),
-                userDto.getAccountCreationDate());
+        return new User(
+                userDto.getId(),
+                userDto.getLogin(),
+                userDto.getPassword(),
+                userDto.getFirstName(),
+                userDto.getLastName(),
+                userDto.getAccountCreationDate()
+        );
     }
 
     public UserDto mapToUserDto(final User user) {
-        return new UserDto(user.getId(), user.getFirstName(), user.getLastName(), user.getAccountCreationDate());
+        return new UserDto(
+                user.getId(),
+                user.getLogin(),
+                null,
+                user.getFirstName(),
+                user.getLastName(),
+                user.getAccountCreationDate()
+        );
     }
 
     public List<UserDto> mapToUserDtoList(final List<User> userList) {
         return userList.stream()
-                .map(user -> new UserDto(user.getId(), user.getFirstName(), user.getLastName(),
-                        user.getAccountCreationDate()))
+                .map(this::mapToUserDto)
                 .collect(Collectors.toList());
     }
 

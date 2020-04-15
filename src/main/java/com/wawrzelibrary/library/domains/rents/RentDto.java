@@ -1,7 +1,7 @@
 package com.wawrzelibrary.library.domains.rents;
 
-import com.wawrzelibrary.library.domains.users.User;
 import com.wawrzelibrary.library.domains.books.Book;
+import com.wawrzelibrary.library.domains.users.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

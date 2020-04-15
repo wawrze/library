@@ -1,5 +1,6 @@
 package com.wawrzelibrary.library.controllers;
 
+import com.wawrzelibrary.library.domains.users.LoginDto;
 import com.wawrzelibrary.library.domains.users.UserDto;
 import com.wawrzelibrary.library.exeptions.UserNotFoundException;
 import com.wawrzelibrary.library.mappers.UserMapper;
@@ -49,6 +50,11 @@ public class UserController {
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteUser")
     public void deleteUser(@RequestParam Integer userId) {
         service.deleteUser(userId);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "login")
+    public String login(@RequestBody LoginDto loginDto) {
+        return service.login(loginDto);
     }
 
 }

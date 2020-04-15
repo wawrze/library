@@ -110,12 +110,11 @@ public class RentRepositoryTestSuite {
         rentId = rent.getId();
         try {
             resultRent1 = rentRepository.findById(rentId).orElseThrow(RentNotFoundException::new);
+        } catch (RentNotFoundException e) {
         }
-        catch(RentNotFoundException e) {}
         try {
             resultRent2 = rentRepository.findById(0).orElseThrow(RentNotFoundException::new);
-        }
-        catch (RentNotFoundException e) {
+        } catch (RentNotFoundException e) {
             resultNoRent = true;
         }
         //Then

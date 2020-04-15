@@ -54,12 +54,11 @@ public class TitleRepositoryTestSuite {
         id = title.getId();
         try {
             resultTitle1 = titleRepository.findById(id).orElseThrow(TitleNotFoundException::new);
+        } catch (TitleNotFoundException e) {
         }
-        catch(TitleNotFoundException e) {}
         try {
             resultTitle2 = titleRepository.findById(0).orElseThrow(TitleNotFoundException::new);
-        }
-        catch (TitleNotFoundException e) {
+        } catch (TitleNotFoundException e) {
             resultNoTitle = true;
         }
         //Then

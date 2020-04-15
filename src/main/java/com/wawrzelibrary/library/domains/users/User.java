@@ -1,38 +1,42 @@
 package com.wawrzelibrary.library.domains.users;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.time.LocalDate;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity(name="users")
+@Entity(name = "users")
 public class User {
-
-    public User(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.accountCreationDate = new Date(LocalDate.now().getYear() - 1900,
-                LocalDate.now().getMonthValue() - 1, LocalDate.now().getDayOfMonth());
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
-
-    @Column(name = "firstName")
+    @Column(name = "login", nullable = false)
+    private String login;
+    @Column(name = "password", nullable = false)
+    private String password;
+    @Column(name = "firstName", nullable = false)
     private String firstName;
-
-    @Column(name = "lastName")
+    @Column(name = "lastName", nullable = false)
     private String lastName;
-
     @Column(name = "accountCreationDate")
     private Date accountCreationDate;
+
+    public User(Integer id, String login, String password, String firstName, String lastName, Date accountCreationDate) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        if (accountCreationDate == null) {
+            this.accountCreationDate = new Date(System.currentTimeMillis());
+        } else {
+            this.accountCreationDate = accountCreationDate;
+        }
+    }
 
 }

@@ -1,12 +1,12 @@
 package com.wawrzelibrary.library.repositories;
 
-        import com.wawrzelibrary.library.domains.books.Book;
-        import org.springframework.data.repository.CrudRepository;
-        import org.springframework.stereotype.Repository;
+import com.wawrzelibrary.library.domains.books.Book;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-        import javax.transaction.Transactional;
-        import java.util.List;
-        import java.util.Optional;
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
 
 @Transactional
 @Repository
