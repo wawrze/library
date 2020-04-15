@@ -1,5 +1,7 @@
 package com.wawrze.library.config;
 
+import com.wawrze.library.filters.AuthFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -23,6 +25,14 @@ import java.util.List;
 @EnableSwagger2
 @Configuration
 public class CoreConfiguration implements WebMvcConfigurer {
+
+    @Bean
+    public FilterRegistrationBean authFilter() {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        registrationBean.setFilter(new AuthFilter());
+        registrationBean.addUrlPatterns("/books/*", "/rents/*", "/titles/*", "/users/*");
+        return registrationBean;
+    }
 
     @Bean
     public RestTemplate restTemplate() {

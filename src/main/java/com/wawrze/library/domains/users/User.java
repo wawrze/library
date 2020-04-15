@@ -23,7 +23,7 @@ public class User {
     private String firstName;
     @Column(name = "lastName", nullable = false)
     private String lastName;
-    @Column(name = "accountCreationDate")
+    @Column(name = "accountCreationDate", nullable = false)
     private Date accountCreationDate;
 
     public User(Integer id, String login, String password, String firstName, String lastName, Date accountCreationDate) {

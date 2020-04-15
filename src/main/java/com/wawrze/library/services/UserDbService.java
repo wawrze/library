@@ -6,10 +6,14 @@ import com.wawrze.library.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.wawrze.library.filters.AuthFilter.TOKEN_KEY;
+import static com.wawrze.library.filters.AuthFilter.USER_KEY;
 
 @Service
 @Transactional
@@ -34,11 +38,17 @@ public class UserDbService {
         userRepository.delete(id);
     }
 
-    public String login(final LoginDto loginDto) {
+    public String login(final LoginDto loginDto, HttpServletRequest request) {
         User user = userRepository.findByLogin(loginDto.getLogin());
+
         if (user == null) return "no user";
-        else if (!user.getPassword().equals(loginDto.getPassword())) return "wrong password";
-        else return UUID.randomUUID().toString();
+        if (!user.getPassword().equals(loginDto.getPassword())) return "wrong password";
+
+        String token = UUID.randomUUID().toString();
+        request.getSession().setAttribute(USER_KEY, user);      // FIXME: serialization problem, maybe replace with just user id?
+        request.getSession().setAttribute(TOKEN_KEY, token);
+
+        return token;
     }
 
 }

@@ -52,9 +52,4 @@ public class UserController {
         service.deleteUser(userId);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "login")
-    public String login(@RequestBody LoginDto loginDto) {
-        return service.login(loginDto);
-    }
-
 }
