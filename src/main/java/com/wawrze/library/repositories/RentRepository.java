@@ -18,7 +18,7 @@ public interface RentRepository extends CrudRepository<Rent, Integer> {
     Optional<Rent> findById(Integer id);
 
     @Override
-    Rent save(Rent rent);
+    <S extends Rent> S save(S rent);
 
     @Override
     void delete(Integer id);

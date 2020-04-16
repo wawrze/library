@@ -18,7 +18,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     Optional<User> findById(Integer id);
 
     @Override
-    User save(User user);
+    <S extends User> S save(S entity);
 
     @Override
     void delete(Integer id);

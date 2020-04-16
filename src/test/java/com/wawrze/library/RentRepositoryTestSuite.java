@@ -68,10 +68,8 @@ public class RentRepositoryTestSuite {
         bookRepository.save(book2);
         bookId1 = book1.getId();
         bookId2 = book2.getId();
-        rent1 = new Rent(user1, book1, new Date(LocalDate.now().getYear() - 1900,
-                LocalDate.now().getMonthValue() - 1, LocalDate.now().getDayOfMonth() + 10));
-        rent2 = new Rent(user2, book2, new Date(LocalDate.now().getYear() - 1900,
-                LocalDate.now().getMonthValue() - 1, LocalDate.now().getDayOfMonth() + 10));
+        rent1 = new Rent(user1, book1, new Date(System.currentTimeMillis()));
+        rent2 = new Rent(user2, book2, new Date(System.currentTimeMillis()));
         rentRepository.save(rent1);
         rentRepository.save(rent2);
         rentId1 = rent1.getId();
@@ -95,8 +93,7 @@ public class RentRepositoryTestSuite {
         int userId;
         int bookId;
         int rentId;
-        Date rentFinishDate = new Date(LocalDate.now().getYear() - 1900,
-                LocalDate.now().getMonthValue() - 1, LocalDate.now().getDayOfMonth() + 10);
+        Date rentFinishDate = new Date(System.currentTimeMillis());
         //When
         titleRepository.save(title);
         titleId = title.getId();
@@ -110,7 +107,7 @@ public class RentRepositoryTestSuite {
         rentId = rent.getId();
         try {
             resultRent1 = rentRepository.findById(rentId).orElseThrow(RentNotFoundException::new);
-        } catch (RentNotFoundException e) {
+        } catch (RentNotFoundException ignored) {
         }
         try {
             resultRent2 = rentRepository.findById(0).orElseThrow(RentNotFoundException::new);

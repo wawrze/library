@@ -18,7 +18,7 @@ public interface TitleRepository extends CrudRepository<Title, Integer> {
     Optional<Title> findById(Integer id);
 
     @Override
-    Title save(Title title);
+    <S extends Title> S save(S entity);
 
     @Override
     void delete(Integer id);

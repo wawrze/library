@@ -16,11 +16,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @CrossOrigin(origins = "*")
 public class RentController {
 
-    @Autowired
-    private RentDbService service;
+    private final RentDbService service;
+    private final RentMapper rentMapper;
 
     @Autowired
-    private RentMapper rentMapper;
+    public RentController(RentDbService service, RentMapper rentMapper) {
+        this.service = service;
+        this.rentMapper = rentMapper;
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "getRents")
     public List<RentDto> getRents() {

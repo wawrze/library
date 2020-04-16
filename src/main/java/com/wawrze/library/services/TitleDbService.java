@@ -13,8 +13,12 @@ import java.util.Optional;
 @Transactional
 public class TitleDbService {
 
+    private final TitleRepository titleRepository;
+
     @Autowired
-    private TitleRepository titleRepository;
+    public TitleDbService(TitleRepository titleRepository) {
+        this.titleRepository = titleRepository;
+    }
 
     public List<Title> getAllTitles() {
         return titleRepository.findAll();

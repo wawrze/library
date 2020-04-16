@@ -16,11 +16,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @CrossOrigin(origins = "*")
 public class BookController {
 
-    @Autowired
-    private BookDbService service;
+    private final BookDbService service;
+    private final BookMapper bookMapper;
 
     @Autowired
-    private BookMapper bookMapper;
+    public BookController(BookDbService service, BookMapper bookMapper) {
+        this.service = service;
+        this.bookMapper = bookMapper;
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "getBooks")
     public List<BookDto> getBooks() {

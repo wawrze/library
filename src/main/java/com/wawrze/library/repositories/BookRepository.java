@@ -18,7 +18,7 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
     Optional<Book> findById(Integer id);
 
     @Override
-    Book save(Book book);
+    <S extends Book> S save(S book);
 
     @Override
     void delete(Integer id);

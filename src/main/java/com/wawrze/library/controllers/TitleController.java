@@ -16,11 +16,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @CrossOrigin(origins = "*")
 public class TitleController {
 
-    @Autowired
-    private TitleDbService service;
+    private final TitleDbService service;
+    private final TitleMapper titleMapper;
 
     @Autowired
-    private TitleMapper titleMapper;
+    public TitleController(TitleDbService service, TitleMapper titleMapper) {
+        this.service = service;
+        this.titleMapper = titleMapper;
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "getTitles")
     public List<TitleDto> getTitles() {

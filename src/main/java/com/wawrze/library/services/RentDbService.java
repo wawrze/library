@@ -13,8 +13,12 @@ import java.util.Optional;
 @Transactional
 public class RentDbService {
 
+    private final RentRepository rentRepository;
+
     @Autowired
-    private RentRepository rentRepository;
+    public RentDbService(RentRepository rentRepository) {
+        this.rentRepository = rentRepository;
+    }
 
     public List<Rent> getAllRents() {
         return rentRepository.findAll();

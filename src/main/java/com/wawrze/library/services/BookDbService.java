@@ -13,8 +13,12 @@ import java.util.Optional;
 @Transactional
 public class BookDbService {
 
+    private final BookRepository bookRepository;
+
     @Autowired
-    private BookRepository bookRepository;
+    public BookDbService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     public List<Book> getAllBooks() {
         return bookRepository.findAll();

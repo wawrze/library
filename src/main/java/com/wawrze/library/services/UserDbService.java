@@ -2,6 +2,7 @@ package com.wawrze.library.services;
 
 import com.wawrze.library.domains.users.LoginDto;
 import com.wawrze.library.domains.users.User;
+import com.wawrze.library.exeptions.ForbiddenException;
 import com.wawrze.library.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,14 +14,18 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.wawrze.library.filters.AuthFilter.TOKEN_KEY;
-import static com.wawrze.library.filters.AuthFilter.USER_KEY;
+import static com.wawrze.library.filters.AuthFilter.USER_ID_KEY;
 
 @Service
 @Transactional
 public class UserDbService {
 
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    public UserDbService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -41,11 +46,11 @@ public class UserDbService {
     public String login(final LoginDto loginDto, HttpServletRequest request) {
         User user = userRepository.findByLogin(loginDto.getLogin());
 
-        if (user == null) return "no user";
-        if (!user.getPassword().equals(loginDto.getPassword())) return "wrong password";
+        if (user == null) throw new ForbiddenException("No user!");
+        if (!user.getPassword().equals(loginDto.getPassword())) throw new ForbiddenException("Wrong password!");
 
         String token = UUID.randomUUID().toString();
-        request.getSession().setAttribute(USER_KEY, user);      // FIXME: serialization problem, maybe replace with just user id?
+        request.getSession().setAttribute(USER_ID_KEY, user.getId());
         request.getSession().setAttribute(TOKEN_KEY, token);
 
         return token;

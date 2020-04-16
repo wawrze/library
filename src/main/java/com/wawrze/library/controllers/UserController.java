@@ -1,6 +1,5 @@
 package com.wawrze.library.controllers;
 
-import com.wawrze.library.domains.users.LoginDto;
 import com.wawrze.library.domains.users.UserDto;
 import com.wawrze.library.exeptions.UserNotFoundException;
 import com.wawrze.library.mappers.UserMapper;
@@ -17,11 +16,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @CrossOrigin(origins = "*")
 public class UserController {
 
-    @Autowired
-    private UserDbService service;
+    private final UserDbService service;
+    private final UserMapper userMapper;
 
     @Autowired
-    private UserMapper userMapper;
+    public UserController(UserDbService service, UserMapper userMapper) {
+        this.service = service;
+        this.userMapper = userMapper;
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "getUsers")
     public List<UserDto> getUsers() {
