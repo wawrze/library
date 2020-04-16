@@ -24,7 +24,7 @@ public class AuthFilter implements Filter {
 
         if (sessionToken == null || sessionUserId == null) {
             res.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            res.getWriter().write("Session error!");
+            res.getWriter().write("Session expired!");
         } else if (requestToken == null) {
             res.setStatus(HttpStatus.FORBIDDEN.value());
             res.getWriter().write("Missing token!");

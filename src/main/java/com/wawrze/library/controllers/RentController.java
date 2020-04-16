@@ -3,7 +3,9 @@ package com.wawrze.library.controllers;
 import com.wawrze.library.domains.rents.RentDto;
 import com.wawrze.library.domains.rents.SimplifiedRentDto;
 import com.wawrze.library.domains.users.UserRole;
+import com.wawrze.library.exeptions.BookNotFoundException;
 import com.wawrze.library.exeptions.RentNotFoundException;
+import com.wawrze.library.exeptions.UserNotFoundException;
 import com.wawrze.library.mappers.RentMapper;
 import com.wawrze.library.services.RentDbService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +54,7 @@ public class RentController {
     @RequestMapping(method = RequestMethod.PUT, value = "updateRent")
     public RentDto updateRent(@RequestBody RentDto rentDto, HttpServletRequest request) {
         UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
-        return rentMapper.mapToRentDto(service.saveRent(rentMapper.mapToRent(rentDto), userRole));
+        return rentMapper.mapToRentDto(service.updateRent(rentMapper.mapToRent(rentDto), userRole));
     }
 
     @RequestMapping(
@@ -60,9 +62,9 @@ public class RentController {
             value = "createRent",
             consumes = APPLICATION_JSON_VALUE
     )
-    public void createRent(@RequestBody RentDto rentDto, HttpServletRequest request) {
+    public void createRent(@RequestParam Integer userId, @RequestParam Integer bookId, HttpServletRequest request) throws BookNotFoundException, UserNotFoundException {
         UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
-        service.saveRent(rentMapper.mapToRent(rentDto), userRole);
+        service.createRent(userId, bookId, userRole);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteRent")

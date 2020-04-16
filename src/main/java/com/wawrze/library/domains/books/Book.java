@@ -24,10 +24,13 @@ public class Book {
     @OneToOne
     @JoinColumn(name = "rentId")
     private Rent rent;
+    @Column(name = "rentDays")
+    private Integer rentDays;
 
-    public Book(Integer id, Title title) {
+    public Book(Integer id, Title title, Integer rentDays) {
         this.id = id;
         this.title = title;
+        this.rentDays = rentDays;
     }
 
 }

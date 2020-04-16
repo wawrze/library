@@ -15,5 +15,6 @@ public class BookDto {
     private Integer id;
     private TitleDto title;
     private Date rentTo;
+    private Integer rentDays;
 
 }

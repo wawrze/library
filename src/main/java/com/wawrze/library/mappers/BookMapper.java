@@ -20,7 +20,7 @@ public class BookMapper {
     }
 
     public Book mapToBook(final BookDto bookDto) {
-        return new Book(bookDto.getId(), titleMapper.mapToTitle(bookDto.getTitle()));
+        return new Book(bookDto.getId(), titleMapper.mapToTitle(bookDto.getTitle()), bookDto.getRentDays());
     }
 
     public BookDto mapToBookDto(final Book book) {
@@ -29,7 +29,7 @@ public class BookMapper {
             rentFinish = book.getRent().getRentFinishDate();
         } catch (NullPointerException ignored) {
         }
-        return new BookDto(book.getId(), titleMapper.mapToTitleDto(book.getTitle()), rentFinish);
+        return new BookDto(book.getId(), titleMapper.mapToTitleDto(book.getTitle()), rentFinish, book.getRentDays());
     }
 
     public List<BookDto> mapToBookDtoList(final List<Book> bookList) {

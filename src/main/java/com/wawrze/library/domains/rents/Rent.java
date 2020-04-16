@@ -13,10 +13,12 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "rents")
-@NamedNativeQuery(
-        name = "Rent.getRentsByUserId",
-        query = "SELECT * FROM rents WHERE user_id = :userId",
-        resultClass = Rent.class
+@NamedNativeQueries(
+        @NamedNativeQuery(
+                name = "Rent.getRentsByUserId",
+                query = "SELECT * FROM rents WHERE user_id = :userId",
+                resultClass = Rent.class
+        )
 )
 public class Rent {
 
@@ -35,7 +37,4 @@ public class Rent {
     @Column(name = "rentFinishDate")
     private Date rentFinishDate;
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
