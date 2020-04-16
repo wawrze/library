@@ -25,8 +25,10 @@ public class User {
     private String lastName;
     @Column(name = "accountCreationDate", nullable = false)
     private Date accountCreationDate;
+    @Column(name = "user_role", nullable = false)
+    private UserRole userRole;
 
-    public User(Integer id, String login, String password, String firstName, String lastName, Date accountCreationDate) {
+    public User(Integer id, String login, String password, String firstName, String lastName, Date accountCreationDate, UserRole userRole) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -37,6 +39,7 @@ public class User {
         } else {
             this.accountCreationDate = accountCreationDate;
         }
+        this.userRole = userRole;
     }
 
 }

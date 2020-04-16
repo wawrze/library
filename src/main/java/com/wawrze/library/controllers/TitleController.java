@@ -7,8 +7,10 @@ import com.wawrze.library.services.TitleDbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static com.wawrze.library.filters.AuthFilter.IS_ADMIN_KEY;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -36,8 +38,9 @@ public class TitleController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "updateTitle")
-    public TitleDto updateTitle(@RequestBody TitleDto titleDto) {
-        return titleMapper.mapToTitleDto(service.saveTitle(titleMapper.mapToTitle(titleDto)));
+    public TitleDto updateTitle(@RequestBody TitleDto titleDto, HttpServletRequest request) {
+        boolean isAdmin = (boolean) request.getSession().getAttribute(IS_ADMIN_KEY);
+        return titleMapper.mapToTitleDto(service.saveTitle(titleMapper.mapToTitle(titleDto), isAdmin));
     }
 
     @RequestMapping(
@@ -45,13 +48,15 @@ public class TitleController {
             value = "createTitle",
             consumes = APPLICATION_JSON_VALUE
     )
-    public void createTitle(@RequestBody TitleDto titleDto) {
-        service.saveTitle(titleMapper.mapToTitle(titleDto));
+    public void createTitle(@RequestBody TitleDto titleDto, HttpServletRequest request) {
+        boolean isAdmin = (boolean) request.getSession().getAttribute(IS_ADMIN_KEY);
+        service.saveTitle(titleMapper.mapToTitle(titleDto), isAdmin);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteTitle")
-    public void deleteTitle(@RequestParam Integer titleId) {
-        service.deleteTitle(titleId);
+    public void deleteTitle(@RequestParam Integer titleId, HttpServletRequest request) {
+        boolean isAdmin = (boolean) request.getSession().getAttribute(IS_ADMIN_KEY);
+        service.deleteTitle(titleId, isAdmin);
     }
 
 }

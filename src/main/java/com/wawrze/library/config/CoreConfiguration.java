@@ -1,5 +1,6 @@
 package com.wawrze.library.config;
 
+import com.google.common.collect.Lists;
 import com.wawrze.library.filters.AuthFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +17,11 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -30,7 +35,7 @@ public class CoreConfiguration implements WebMvcConfigurer {
     public FilterRegistrationBean authFilter() {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         registrationBean.setFilter(new AuthFilter());
-        registrationBean.addUrlPatterns("/books/*", "/rents/*", "/titles/*", "/users/*");
+        registrationBean.addUrlPatterns("/books/updateBook", "/books/createBook", "/books/deleteBook", "/rents/*", "/title/updateTitle", "/title/createTitle", "/title/deleteTitle", "/users/*");
         return registrationBean;
     }
 
@@ -42,10 +47,26 @@ public class CoreConfiguration implements WebMvcConfigurer {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .securityContexts(Lists.newArrayList(securityContext()))
+                .securitySchemes(Lists.newArrayList(new ApiKey("Bearer token", "Authorization", "header")))
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.wawrze.library"))
                 .paths(PathSelectors.any())
                 .build();
+    }
+
+    private SecurityContext securityContext() {
+        return SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .forPaths(PathSelectors.any())
+                .build();
+    }
+
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return Lists.newArrayList(new SecurityReference("Bearer token", authorizationScopes));
     }
 
     @Override

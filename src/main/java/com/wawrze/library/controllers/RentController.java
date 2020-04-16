@@ -7,8 +7,10 @@ import com.wawrze.library.services.RentDbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static com.wawrze.library.filters.AuthFilter.IS_ADMIN_KEY;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -26,18 +28,21 @@ public class RentController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getRents")
-    public List<RentDto> getRents() {
-        return rentMapper.mapToRentDtoList(service.getAllRents());
+    public List<RentDto> getRents(HttpServletRequest request) {
+        boolean isAdmin = (boolean) request.getSession().getAttribute(IS_ADMIN_KEY);
+        return rentMapper.mapToRentDtoList(service.getAllRents(isAdmin));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getRent")
-    public RentDto getRent(@RequestParam Integer rentId) throws RentNotFoundException {
-        return rentMapper.mapToRentDto(service.getRent(rentId).orElseThrow(RentNotFoundException::new));
+    public RentDto getRent(@RequestParam Integer rentId, HttpServletRequest request) throws RentNotFoundException {
+        boolean isAdmin = (boolean) request.getSession().getAttribute(IS_ADMIN_KEY);
+        return rentMapper.mapToRentDto(service.getRent(rentId, isAdmin).orElseThrow(RentNotFoundException::new));
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "updateRent")
-    public RentDto updateRent(@RequestBody RentDto rentDto) {
-        return rentMapper.mapToRentDto(service.saveRent(rentMapper.mapToRent(rentDto)));
+    public RentDto updateRent(@RequestBody RentDto rentDto, HttpServletRequest request) {
+        boolean isAdmin = (boolean) request.getSession().getAttribute(IS_ADMIN_KEY);
+        return rentMapper.mapToRentDto(service.saveRent(rentMapper.mapToRent(rentDto), isAdmin));
     }
 
     @RequestMapping(
@@ -45,13 +50,15 @@ public class RentController {
             value = "createRent",
             consumes = APPLICATION_JSON_VALUE
     )
-    public void createRent(@RequestBody RentDto rentDto) {
-        service.saveRent(rentMapper.mapToRent(rentDto));
+    public void createRent(@RequestBody RentDto rentDto, HttpServletRequest request) {
+        boolean isAdmin = (boolean) request.getSession().getAttribute(IS_ADMIN_KEY);
+        service.saveRent(rentMapper.mapToRent(rentDto), isAdmin);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteRent")
-    public void deleteRent(@RequestParam Integer rentId) {
-        service.deleteRent(rentId);
+    public void deleteRent(@RequestParam Integer rentId, HttpServletRequest request) {
+        boolean isAdmin = (boolean) request.getSession().getAttribute(IS_ADMIN_KEY);
+        service.deleteRent(rentId, isAdmin);
     }
 
 }

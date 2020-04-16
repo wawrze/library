@@ -17,7 +17,8 @@ public class UserMapper {
                 userDto.getPassword(),
                 userDto.getFirstName(),
                 userDto.getLastName(),
-                userDto.getAccountCreationDate()
+                userDto.getAccountCreationDate(),
+                userDto.getUserRole()
         );
     }
 
@@ -28,7 +29,8 @@ public class UserMapper {
                 null,
                 user.getFirstName(),
                 user.getLastName(),
-                user.getAccountCreationDate()
+                user.getAccountCreationDate(),
+                user.getUserRole()
         );
     }
 

@@ -11,6 +11,7 @@ public class AuthFilter implements Filter {
 
     public static final String TOKEN_KEY = "TOKEN_KEY";
     public static final String USER_ID_KEY = "USER_ID_KEY";
+    public static final String IS_ADMIN_KEY = "IS_ADMIN_KEY";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -21,15 +22,15 @@ public class AuthFilter implements Filter {
         String sessionToken = (String) req.getSession().getAttribute(TOKEN_KEY);
         String requestToken = req.getHeader("authorization");
 
-        if (sessionToken == null || requestToken == null) {
+        if (sessionToken == null || sessionUserId == null) {
+            res.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            res.getWriter().write("Session error!");
+        } else if (requestToken == null) {
             res.setStatus(HttpStatus.FORBIDDEN.value());
             res.getWriter().write("Missing token!");
         } else if (!requestToken.equals("Bearer " + sessionToken)) {
             res.setStatus(HttpStatus.FORBIDDEN.value());
             res.getWriter().write("Wrong token!");
-        } else if (sessionUserId == null) {
-            res.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            res.getWriter().write("Session error!");
         } else {
             chain.doFilter(request, response);
         }

@@ -1,6 +1,7 @@
 package com.wawrze.library.services;
 
 import com.wawrze.library.domains.titles.Title;
+import com.wawrze.library.exeptions.ForbiddenException;
 import com.wawrze.library.repositories.TitleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,11 +29,13 @@ public class TitleDbService {
         return titleRepository.findById(id);
     }
 
-    public Title saveTitle(final Title title) {
+    public Title saveTitle(final Title title, final boolean isAdmin) {
+        if (!isAdmin) throw new ForbiddenException("Only administrator can manage titles!");
         return titleRepository.save(title);
     }
 
-    public void deleteTitle(final Integer id) {
+    public void deleteTitle(final Integer id, final boolean isAdmin) {
+        if (!isAdmin) throw new ForbiddenException("Only administrator can manage titles!");
         titleRepository.delete(id);
     }
 
