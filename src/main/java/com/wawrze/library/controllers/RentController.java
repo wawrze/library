@@ -1,6 +1,7 @@
 package com.wawrze.library.controllers;
 
 import com.wawrze.library.domains.rents.RentDto;
+import com.wawrze.library.domains.rents.SimplifiedRentDto;
 import com.wawrze.library.domains.users.UserRole;
 import com.wawrze.library.exeptions.RentNotFoundException;
 import com.wawrze.library.mappers.RentMapper;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static com.wawrze.library.filters.AuthFilter.USER_ID_KEY;
 import static com.wawrze.library.filters.AuthFilter.USER_ROLE_KEY;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -32,6 +34,13 @@ public class RentController {
     public List<RentDto> getRents(HttpServletRequest request) {
         UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
         return rentMapper.mapToRentDtoList(service.getAllRents(userRole));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "getRents/{userId}")
+    public List<SimplifiedRentDto> getRents(HttpServletRequest request, @PathVariable Integer userId) {
+        UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
+        int id = (int) request.getSession().getAttribute(USER_ID_KEY);
+        return rentMapper.mapToSimplifiedRentDtoList(service.getUserRents(userId, id, userRole));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getRent")

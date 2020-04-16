@@ -27,6 +27,12 @@ public class RentDbService {
         return rentDAO.findAll();
     }
 
+    public List<Rent> getUserRents(final int userId, final int id, final UserRole userRole) {
+        if (userRole == UserRole.USER && userId != id)
+            throw new ForbiddenException("Only librarian can manage others rents!");
+        return rentDAO.getRentsByUserId(userId);
+    }
+
     public Optional<Rent> getRent(final Integer id, final UserRole userRole) {
         if (userRole == UserRole.USER) throw new ForbiddenException("Only librarian can manage rents!");
         return rentDAO.findById(id);

@@ -1,7 +1,9 @@
 package com.wawrze.library.dao;
 
 import com.wawrze.library.domains.rents.Rent;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -22,5 +24,8 @@ public interface RentDAO extends CrudRepository<Rent, Integer> {
 
     @Override
     void delete(Integer id);
+
+    @Query
+    List<Rent> getRentsByUserId(@Param("userId") int userId);
 
 }

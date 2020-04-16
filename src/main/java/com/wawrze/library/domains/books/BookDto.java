@@ -1,6 +1,6 @@
 package com.wawrze.library.domains.books;
 
-import com.wawrze.library.domains.titles.Title;
+import com.wawrze.library.domains.titles.TitleDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import java.sql.Date;
 public class BookDto {
 
     private Integer id;
-    private Title title;
+    private TitleDto title;
     private Date rentTo;
 
 }
