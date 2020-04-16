@@ -1,8 +1,9 @@
 package com.wawrze.library.services;
 
+import com.wawrze.library.dao.TitleDAO;
 import com.wawrze.library.domains.titles.Title;
+import com.wawrze.library.domains.users.UserRole;
 import com.wawrze.library.exeptions.ForbiddenException;
-import com.wawrze.library.repositories.TitleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,29 +15,29 @@ import java.util.Optional;
 @Transactional
 public class TitleDbService {
 
-    private final TitleRepository titleRepository;
+    private final TitleDAO titleDAO;
 
     @Autowired
-    public TitleDbService(TitleRepository titleRepository) {
-        this.titleRepository = titleRepository;
+    public TitleDbService(TitleDAO titleDAO) {
+        this.titleDAO = titleDAO;
     }
 
     public List<Title> getAllTitles() {
-        return titleRepository.findAll();
+        return titleDAO.findAll();
     }
 
     public Optional<Title> getTitle(final Integer id) {
-        return titleRepository.findById(id);
+        return titleDAO.findById(id);
     }
 
-    public Title saveTitle(final Title title, final boolean isAdmin) {
-        if (!isAdmin) throw new ForbiddenException("Only administrator can manage titles!");
-        return titleRepository.save(title);
+    public Title saveTitle(final Title title, final UserRole userRole) {
+        if (userRole != UserRole.ADMIN) throw new ForbiddenException("Only administrator can manage titles!");
+        return titleDAO.save(title);
     }
 
-    public void deleteTitle(final Integer id, final boolean isAdmin) {
-        if (!isAdmin) throw new ForbiddenException("Only administrator can manage titles!");
-        titleRepository.delete(id);
+    public void deleteTitle(final Integer id, final UserRole userRole) {
+        if (userRole != UserRole.ADMIN) throw new ForbiddenException("Only administrator can manage titles!");
+        titleDAO.delete(id);
     }
 
 }

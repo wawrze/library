@@ -1,8 +1,9 @@
 package com.wawrze.library.services;
 
+import com.wawrze.library.dao.BookDAO;
 import com.wawrze.library.domains.books.Book;
+import com.wawrze.library.domains.users.UserRole;
 import com.wawrze.library.exeptions.ForbiddenException;
-import com.wawrze.library.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,29 +15,29 @@ import java.util.Optional;
 @Transactional
 public class BookDbService {
 
-    private final BookRepository bookRepository;
+    private final BookDAO bookDAO;
 
     @Autowired
-    public BookDbService(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
+    public BookDbService(BookDAO bookDAO) {
+        this.bookDAO = bookDAO;
     }
 
     public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+        return bookDAO.findAll();
     }
 
     public Optional<Book> getBook(final Integer id) {
-        return bookRepository.findById(id);
+        return bookDAO.findById(id);
     }
 
-    public Book saveBook(final Book book, final boolean isAdmin) {
-        if (!isAdmin) throw new ForbiddenException("Only administrator can manage books!");
-        return bookRepository.save(book);
+    public Book saveBook(final Book book, final UserRole userRole) {
+        if (userRole != UserRole.ADMIN) throw new ForbiddenException("Only administrator can manage books!");
+        return bookDAO.save(book);
     }
 
-    public void deleteBook(final Integer id, final boolean isAdmin) {
-        if (!isAdmin) throw new ForbiddenException("Only administrator can manage books!");
-        bookRepository.delete(id);
+    public void deleteBook(final Integer id, final UserRole userRole) {
+        if (userRole != UserRole.ADMIN) throw new ForbiddenException("Only administrator can manage books!");
+        bookDAO.delete(id);
     }
 
 }

@@ -1,6 +1,6 @@
-package com.wawrze.library.repositories;
+package com.wawrze.library.dao;
 
-import com.wawrze.library.domains.titles.Title;
+import com.wawrze.library.domains.books.Book;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,15 +10,15 @@ import java.util.Optional;
 
 @Transactional
 @Repository
-public interface TitleRepository extends CrudRepository<Title, Integer> {
+public interface BookDAO extends CrudRepository<Book, Integer> {
 
     @Override
-    List<Title> findAll();
+    List<Book> findAll();
 
-    Optional<Title> findById(Integer id);
+    Optional<Book> findById(Integer id);
 
     @Override
-    <S extends Title> S save(S entity);
+    <S extends Book> S save(S book);
 
     @Override
     void delete(Integer id);

@@ -1,10 +1,10 @@
 package com.wawrze.library.services;
 
+import com.wawrze.library.dao.UserDAO;
 import com.wawrze.library.domains.users.Credentials;
 import com.wawrze.library.domains.users.User;
 import com.wawrze.library.domains.users.UserRole;
 import com.wawrze.library.exeptions.ForbiddenException;
-import com.wawrze.library.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,36 +20,36 @@ import static com.wawrze.library.filters.AuthFilter.*;
 @Transactional
 public class UserDbService {
 
-    private final UserRepository userRepository;
+    private final UserDAO userDAO;
 
     @Autowired
-    public UserDbService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserDbService(UserDAO userDAO) {
+        this.userDAO = userDAO;
         createAdminIfNeeded();
     }
 
-    public List<User> getAllUsers(final boolean isAdmin) {
-        if (!isAdmin) throw new ForbiddenException("Only administrator can manage users!");
-        return userRepository.findAll();
+    public List<User> getAllUsers(final UserRole userRole) {
+        if (userRole == UserRole.USER) throw new ForbiddenException("Only librarian can manage users!");
+        return userDAO.findAll();
     }
 
-    public Optional<User> getUser(final Integer id, final int userId, final boolean isAdmin) {
-        if (id != userId && !isAdmin) throw new ForbiddenException("Only administrator can manage users!");
-        return userRepository.findById(id);
+    public Optional<User> getUser(final Integer id, final int userId, final UserRole userRole) {
+        if (id != userId && userRole == UserRole.USER) throw new ForbiddenException("Only librarian can manage users!");
+        return userDAO.findById(id);
     }
 
-    public User saveUser(final User user, final boolean isAdmin) {
-        if (!isAdmin) throw new ForbiddenException("Only administrator can manage users!");
-        return userRepository.save(user);
+    public User saveUser(final User user, final UserRole userRole) {
+        if (userRole == UserRole.USER) throw new ForbiddenException("Only librarian can manage users!");
+        return userDAO.save(user);
     }
 
-    public void deleteUser(final Integer id, final boolean isAdmin) {
-        if (!isAdmin) throw new ForbiddenException("Only administrator can manage users!");
-        userRepository.delete(id);
+    public void deleteUser(final Integer id, final UserRole userRole) {
+        if (userRole == UserRole.USER) throw new ForbiddenException("Only librarian can manage users!");
+        userDAO.delete(id);
     }
 
     public String login(final Credentials credentials, HttpServletRequest request) {
-        User user = userRepository.findByLogin(credentials.getLogin());
+        User user = userDAO.findByLogin(credentials.getLogin());
 
         if (user == null) throw new ForbiddenException("No user!");
         if (!user.getPassword().equals(credentials.getPassword())) throw new ForbiddenException("Wrong password!");
@@ -57,13 +57,13 @@ public class UserDbService {
         String token = UUID.randomUUID().toString();
         request.getSession().setAttribute(USER_ID_KEY, user.getId());
         request.getSession().setAttribute(TOKEN_KEY, token);
-        request.getSession().setAttribute(IS_ADMIN_KEY, user.getUserRole() == UserRole.ADMIN);
+        request.getSession().setAttribute(USER_ROLE_KEY, user.getUserRole());
 
         return token;
     }
 
     private void createAdminIfNeeded() {
-        if (userRepository.countAllByUserRoleEquals(UserRole.ADMIN) == 0) {
+        if (userDAO.countAllByUserRoleEquals(UserRole.ADMIN) == 0) {
             User admin = new User(
                     null,
                     "admin",
@@ -73,7 +73,7 @@ public class UserDbService {
                     null,
                     UserRole.ADMIN
             );
-            userRepository.save(admin);
+            userDAO.save(admin);
         }
     }
 

@@ -1,8 +1,8 @@
 package com.wawrze.library;
 
+import com.wawrze.library.dao.UserRepository;
 import com.wawrze.library.domains.users.User;
 import com.wawrze.library.exeptions.UserNotFoundException;
-import com.wawrze.library.repositories.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

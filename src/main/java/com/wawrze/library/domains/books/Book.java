@@ -1,5 +1,6 @@
 package com.wawrze.library.domains.books;
 
+import com.wawrze.library.domains.rents.Rent;
 import com.wawrze.library.domains.titles.Title;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +21,13 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "bookTitle")
     private Title title;
-    @Column(name = "bookStatus")
-    private String status;
+    @OneToOne
+    @JoinColumn(name = "rentId")
+    private Rent rent;
+
+    public Book(Integer id, Title title) {
+        this.id = id;
+        this.title = title;
+    }
 
 }

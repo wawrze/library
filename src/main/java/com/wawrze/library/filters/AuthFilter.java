@@ -11,7 +11,7 @@ public class AuthFilter implements Filter {
 
     public static final String TOKEN_KEY = "TOKEN_KEY";
     public static final String USER_ID_KEY = "USER_ID_KEY";
-    public static final String IS_ADMIN_KEY = "IS_ADMIN_KEY";
+    public static final String USER_ROLE_KEY = "USER_ROLE_KEY";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

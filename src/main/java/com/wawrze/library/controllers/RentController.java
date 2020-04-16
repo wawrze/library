@@ -1,6 +1,7 @@
 package com.wawrze.library.controllers;
 
 import com.wawrze.library.domains.rents.RentDto;
+import com.wawrze.library.domains.users.UserRole;
 import com.wawrze.library.exeptions.RentNotFoundException;
 import com.wawrze.library.mappers.RentMapper;
 import com.wawrze.library.services.RentDbService;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static com.wawrze.library.filters.AuthFilter.IS_ADMIN_KEY;
+import static com.wawrze.library.filters.AuthFilter.USER_ROLE_KEY;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -29,20 +30,20 @@ public class RentController {
 
     @RequestMapping(method = RequestMethod.GET, value = "getRents")
     public List<RentDto> getRents(HttpServletRequest request) {
-        boolean isAdmin = (boolean) request.getSession().getAttribute(IS_ADMIN_KEY);
-        return rentMapper.mapToRentDtoList(service.getAllRents(isAdmin));
+        UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
+        return rentMapper.mapToRentDtoList(service.getAllRents(userRole));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getRent")
     public RentDto getRent(@RequestParam Integer rentId, HttpServletRequest request) throws RentNotFoundException {
-        boolean isAdmin = (boolean) request.getSession().getAttribute(IS_ADMIN_KEY);
-        return rentMapper.mapToRentDto(service.getRent(rentId, isAdmin).orElseThrow(RentNotFoundException::new));
+        UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
+        return rentMapper.mapToRentDto(service.getRent(rentId, userRole).orElseThrow(RentNotFoundException::new));
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "updateRent")
     public RentDto updateRent(@RequestBody RentDto rentDto, HttpServletRequest request) {
-        boolean isAdmin = (boolean) request.getSession().getAttribute(IS_ADMIN_KEY);
-        return rentMapper.mapToRentDto(service.saveRent(rentMapper.mapToRent(rentDto), isAdmin));
+        UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
+        return rentMapper.mapToRentDto(service.saveRent(rentMapper.mapToRent(rentDto), userRole));
     }
 
     @RequestMapping(
@@ -51,14 +52,14 @@ public class RentController {
             consumes = APPLICATION_JSON_VALUE
     )
     public void createRent(@RequestBody RentDto rentDto, HttpServletRequest request) {
-        boolean isAdmin = (boolean) request.getSession().getAttribute(IS_ADMIN_KEY);
-        service.saveRent(rentMapper.mapToRent(rentDto), isAdmin);
+        UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
+        service.saveRent(rentMapper.mapToRent(rentDto), userRole);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteRent")
     public void deleteRent(@RequestParam Integer rentId, HttpServletRequest request) {
-        boolean isAdmin = (boolean) request.getSession().getAttribute(IS_ADMIN_KEY);
-        service.deleteRent(rentId, isAdmin);
+        UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
+        service.deleteRent(rentId, userRole);
     }
 
 }

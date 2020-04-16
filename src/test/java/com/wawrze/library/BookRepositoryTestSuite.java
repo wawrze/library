@@ -1,11 +1,11 @@
 package com.wawrze.library;
 
 
+import com.wawrze.library.dao.BookRepository;
+import com.wawrze.library.dao.TitleRepository;
 import com.wawrze.library.domains.books.Book;
 import com.wawrze.library.domains.titles.Title;
 import com.wawrze.library.exeptions.BookNotFoundException;
-import com.wawrze.library.repositories.BookRepository;
-import com.wawrze.library.repositories.TitleRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

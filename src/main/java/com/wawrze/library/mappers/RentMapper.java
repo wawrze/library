@@ -22,8 +22,7 @@ public class RentMapper {
 
     public List<RentDto> mapToRentDtoList(final List<Rent> rentList) {
         return rentList.stream()
-                .map(rent -> new RentDto(rent.getId(), rent.getUser(), rent.getBook(),
-                        rent.getRentStartDate(), rent.getRentFinishDate()))
+                .map(this::mapToRentDto)
                 .collect(Collectors.toList());
     }
 

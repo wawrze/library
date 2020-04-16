@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,6 +14,6 @@ public class BookDto {
 
     private Integer id;
     private Title title;
-    private String status;
+    private Date rentTo;
 
 }

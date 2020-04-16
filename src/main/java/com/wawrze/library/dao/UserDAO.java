@@ -1,4 +1,4 @@
-package com.wawrze.library.repositories;
+package com.wawrze.library.dao;
 
 import com.wawrze.library.domains.users.User;
 import com.wawrze.library.domains.users.UserRole;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Transactional
 @Repository
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface UserDAO extends CrudRepository<User, Integer> {
 
     @Override
     List<User> findAll();

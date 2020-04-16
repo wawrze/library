@@ -1,6 +1,7 @@
 package com.wawrze.library.controllers;
 
 import com.wawrze.library.domains.books.BookDto;
+import com.wawrze.library.domains.users.UserRole;
 import com.wawrze.library.exeptions.BookNotFoundException;
 import com.wawrze.library.mappers.BookMapper;
 import com.wawrze.library.services.BookDbService;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static com.wawrze.library.filters.AuthFilter.IS_ADMIN_KEY;
+import static com.wawrze.library.filters.AuthFilter.USER_ROLE_KEY;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -39,8 +40,8 @@ public class BookController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "updateBook")
     public BookDto updateBook(@RequestBody BookDto bookDto, HttpServletRequest request) {
-        boolean isAdmin = (boolean) request.getSession().getAttribute(IS_ADMIN_KEY);
-        return bookMapper.mapToBookDto(service.saveBook(bookMapper.mapToBook(bookDto), isAdmin));
+        UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
+        return bookMapper.mapToBookDto(service.saveBook(bookMapper.mapToBook(bookDto), userRole));
     }
 
     @RequestMapping(
@@ -49,14 +50,14 @@ public class BookController {
             consumes = APPLICATION_JSON_VALUE
     )
     public void createBook(@RequestBody BookDto bookDto, HttpServletRequest request) {
-        boolean isAdmin = (boolean) request.getSession().getAttribute(IS_ADMIN_KEY);
-        service.saveBook(bookMapper.mapToBook(bookDto), isAdmin);
+        UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
+        service.saveBook(bookMapper.mapToBook(bookDto), userRole);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteBook")
     public void deleteBook(@RequestParam Integer bookId, HttpServletRequest request) {
-        boolean isAdmin = (boolean) request.getSession().getAttribute(IS_ADMIN_KEY);
-        service.deleteBook(bookId, isAdmin);
+        UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
+        service.deleteBook(bookId, userRole);
     }
 
 }

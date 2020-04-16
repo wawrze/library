@@ -1,8 +1,8 @@
 package com.wawrze.library;
 
+import com.wawrze.library.dao.TitleRepository;
 import com.wawrze.library.domains.titles.Title;
 import com.wawrze.library.exeptions.TitleNotFoundException;
-import com.wawrze.library.repositories.TitleRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

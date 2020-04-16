@@ -1,14 +1,14 @@
 package com.wawrze.library;
 
+import com.wawrze.library.dao.BookRepository;
+import com.wawrze.library.dao.RentRepository;
+import com.wawrze.library.dao.TitleRepository;
+import com.wawrze.library.dao.UserRepository;
 import com.wawrze.library.domains.books.Book;
 import com.wawrze.library.domains.rents.Rent;
 import com.wawrze.library.domains.titles.Title;
 import com.wawrze.library.domains.users.User;
 import com.wawrze.library.exeptions.RentNotFoundException;
-import com.wawrze.library.repositories.BookRepository;
-import com.wawrze.library.repositories.RentRepository;
-import com.wawrze.library.repositories.TitleRepository;
-import com.wawrze.library.repositories.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

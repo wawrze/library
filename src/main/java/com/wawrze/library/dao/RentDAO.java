@@ -1,4 +1,4 @@
-package com.wawrze.library.repositories;
+package com.wawrze.library.dao;
 
 import com.wawrze.library.domains.rents.Rent;
 import org.springframework.data.repository.CrudRepository;
@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Transactional
 @Repository
-public interface RentRepository extends CrudRepository<Rent, Integer> {
+public interface RentDAO extends CrudRepository<Rent, Integer> {
 
     @Override
     List<Rent> findAll();

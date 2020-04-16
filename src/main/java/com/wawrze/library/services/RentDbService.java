@@ -1,8 +1,9 @@
 package com.wawrze.library.services;
 
+import com.wawrze.library.dao.RentDAO;
 import com.wawrze.library.domains.rents.Rent;
+import com.wawrze.library.domains.users.UserRole;
 import com.wawrze.library.exeptions.ForbiddenException;
-import com.wawrze.library.repositories.RentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,31 +15,31 @@ import java.util.Optional;
 @Transactional
 public class RentDbService {
 
-    private final RentRepository rentRepository;
+    private final RentDAO rentDAO;
 
     @Autowired
-    public RentDbService(RentRepository rentRepository) {
-        this.rentRepository = rentRepository;
+    public RentDbService(RentDAO rentDAO) {
+        this.rentDAO = rentDAO;
     }
 
-    public List<Rent> getAllRents(final boolean isAdmin) {
-        if (!isAdmin) throw new ForbiddenException("Only administrator can manage rents!");
-        return rentRepository.findAll();
+    public List<Rent> getAllRents(final UserRole userRole) {
+        if (userRole == UserRole.USER) throw new ForbiddenException("Only librarian can manage rents!");
+        return rentDAO.findAll();
     }
 
-    public Optional<Rent> getRent(final Integer id, final boolean isAdmin) {
-        if (!isAdmin) throw new ForbiddenException("Only administrator can manage rents!");
-        return rentRepository.findById(id);
+    public Optional<Rent> getRent(final Integer id, final UserRole userRole) {
+        if (userRole == UserRole.USER) throw new ForbiddenException("Only librarian can manage rents!");
+        return rentDAO.findById(id);
     }
 
-    public Rent saveRent(final Rent rent, final boolean isAdmin) {
-        if (!isAdmin) throw new ForbiddenException("Only administrator can manage rents!");
-        return rentRepository.save(rent);
+    public Rent saveRent(final Rent rent, final UserRole userRole) {
+        if (userRole == UserRole.USER) throw new ForbiddenException("Only librarian can manage rents!");
+        return rentDAO.save(rent);
     }
 
-    public void deleteRent(final Integer id, final boolean isAdmin) {
-        if (!isAdmin) throw new ForbiddenException("Only administrator can manage rents!");
-        rentRepository.delete(id);
+    public void deleteRent(final Integer id, final UserRole userRole) {
+        if (userRole == UserRole.USER) throw new ForbiddenException("Only librarian can manage rents!");
+        rentDAO.delete(id);
     }
 
 }
