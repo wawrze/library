@@ -63,7 +63,7 @@ public class UserDbService {
     }
 
     private void createAdminIfNeeded() {
-        if (userRepository.findAll().size() == 0) {
+        if (userRepository.countAllByUserRoleEquals(UserRole.ADMIN) == 0) {
             User admin = new User(
                     null,
                     "admin",

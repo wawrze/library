@@ -30,11 +30,4 @@ public class Rent {
     @Column(name = "rentFinishDate")
     private Date rentFinishDate;
 
-    public Rent(User user, Book book, Date rentFinishDate) {
-        this.user = user;
-        this.book = book;
-        this.rentStartDate = new Date(System.currentTimeMillis());
-        this.rentFinishDate = rentFinishDate;
-    }
-
 }

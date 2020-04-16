@@ -23,9 +23,4 @@ public class Book {
     @Column(name = "bookStatus")
     private String status;
 
-    public Book(Title title, String status) {
-        this.title = title;
-        this.status = status;
-    }
-
 }

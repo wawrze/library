@@ -1,6 +1,7 @@
 package com.wawrze.library.repositories;
 
 import com.wawrze.library.domains.users.User;
+import com.wawrze.library.domains.users.UserRole;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -24,5 +25,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     void delete(Integer id);
 
     User findByLogin(String login);
+
+    Integer countAllByUserRoleEquals(UserRole userRole);
 
 }
