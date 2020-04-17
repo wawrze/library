@@ -1,8 +1,11 @@
 package com.wawrze.library.domains.titles;
 
+import com.wawrze.library.domains.books.BookDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -13,5 +16,6 @@ public class TitleDto {
     private String title;
     private String author;
     private int publicationYear;
+    private List<BookDto> books;
 
 }

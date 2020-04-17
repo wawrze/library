@@ -1,9 +1,11 @@
 package com.wawrze.library.mappers;
 
+import com.wawrze.library.domains.books.BookDto;
 import com.wawrze.library.domains.titles.Title;
 import com.wawrze.library.domains.titles.TitleDto;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,7 +17,11 @@ public class TitleMapper {
     }
 
     public TitleDto mapToTitleDto(final Title title) {
-        return new TitleDto(title.getId(), title.getTitle(), title.getAuthor(), title.getPublicationYear());
+        return new TitleDto(title.getId(), title.getTitle(), title.getAuthor(), title.getPublicationYear(), new ArrayList<>());
+    }
+
+    public TitleDto mapToTitleDto(final Title title, final List<BookDto> books) {
+        return new TitleDto(title.getId(), title.getTitle(), title.getAuthor(), title.getPublicationYear(), books);
     }
 
     public List<TitleDto> mapToTitleDtoList(final List<Title> titleList) {

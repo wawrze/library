@@ -12,6 +12,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "books")
+@NamedNativeQuery(
+        name = "Book.getBooksByTitleId",
+        query = "SELECT * FROM books WHERE book_title = :titleId",
+        resultClass = Book.class
+)
 public class Book {
 
     @Id

@@ -13,12 +13,10 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "rents")
-@NamedNativeQueries(
-        @NamedNativeQuery(
-                name = "Rent.getRentsByUserId",
-                query = "SELECT * FROM rents WHERE user_id = :userId",
-                resultClass = Rent.class
-        )
+@NamedNativeQuery(
+        name = "Rent.getRentsByUserId",
+        query = "SELECT * FROM rents WHERE user_id = :userId",
+        resultClass = Rent.class
 )
 public class Rent {
 

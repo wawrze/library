@@ -35,7 +35,7 @@ public class TitleController {
 
     @RequestMapping(method = RequestMethod.GET, value = "getTitle")
     public TitleDto getTitle(@RequestParam Integer titleId) throws TitleNotFoundException {
-        return titleMapper.mapToTitleDto(service.getTitle(titleId).orElseThrow(TitleNotFoundException::new));
+        return service.getTitle(titleId);
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "updateTitle")
