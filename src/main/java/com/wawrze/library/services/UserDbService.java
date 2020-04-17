@@ -82,7 +82,7 @@ public class UserDbService {
             User admin = new User(
                     null,
                     "admin",
-                    "admin",
+                    "e879a6bad47bb50ef56a957edd1c3c78b26d77ebb8e5547cd71fdca0fdae834fbe7b914ad71e3359fdf1cc4f0934ddd145bcc8e1b3ac841efa4db2a48c1b120f",
                     "Admin",
                     "Admin",
                     null,
