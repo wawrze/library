@@ -21,27 +21,28 @@ public class AuthFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
 
+        User user = null;
         try {
             String tokenHeader = req.getHeader("authorization");
             String[] split = tokenHeader.split("Bearer ");
             String requestToken = split[1];
-            User user = userDAO.findByToken(requestToken);
-
-            if (user == null) {
-                res.setStatus(HttpStatus.FORBIDDEN.value());
-                res.getWriter().write("Wrong token!");
-            } else {
-                req.getSession().setAttribute(USER_ID_KEY, user.getId());
-                req.getSession().setAttribute(USER_ROLE_KEY, user.getUserRole());
-                chain.doFilter(request, response);
-            }
+            user = userDAO.findByToken(requestToken);
         } catch (Exception e) {
             res.setStatus(HttpStatus.FORBIDDEN.value());
             res.getWriter().write("Incorrect token format!");
+        }
+
+        if (user == null) {
+            res.setStatus(HttpStatus.FORBIDDEN.value());
+            res.getWriter().write("Wrong token!");
+        } else {
+            req.getSession().setAttribute(USER_ID_KEY, user.getId());
+            req.getSession().setAttribute(USER_ROLE_KEY, user.getUserRole());
+            chain.doFilter(request, response);
         }
     }
 
