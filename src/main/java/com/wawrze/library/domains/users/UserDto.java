@@ -18,5 +18,9 @@ public class UserDto {
     private String lastName;
     private Date accountCreationDate;
     private UserRole userRole;
+    private String token;
 
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

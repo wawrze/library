@@ -30,7 +30,8 @@ public class UserMapper {
                 user.getFirstName(),
                 user.getLastName(),
                 user.getAccountCreationDate(),
-                user.getUserRole()
+                user.getUserRole(),
+                null
         );
     }
 

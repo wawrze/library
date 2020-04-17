@@ -1,6 +1,7 @@
 package com.wawrze.library.controllers;
 
 import com.wawrze.library.domains.users.Credentials;
+import com.wawrze.library.domains.users.UserDto;
 import com.wawrze.library.services.UserDbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE, value = "login")
-    public String login(@RequestBody Credentials credentials, HttpServletRequest request) {
+    public UserDto login(@RequestBody Credentials credentials, HttpServletRequest request) {
         return service.login(credentials, request);
     }
 

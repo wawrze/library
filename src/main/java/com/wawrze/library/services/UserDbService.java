@@ -3,8 +3,10 @@ package com.wawrze.library.services;
 import com.wawrze.library.dao.UserDAO;
 import com.wawrze.library.domains.users.Credentials;
 import com.wawrze.library.domains.users.User;
+import com.wawrze.library.domains.users.UserDto;
 import com.wawrze.library.domains.users.UserRole;
 import com.wawrze.library.exeptions.ForbiddenException;
+import com.wawrze.library.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +23,12 @@ import static com.wawrze.library.filters.AuthFilter.*;
 public class UserDbService {
 
     private final UserDAO userDAO;
+    private final UserMapper userMapper;
 
     @Autowired
-    public UserDbService(UserDAO userDAO) {
+    public UserDbService(UserDAO userDAO, UserMapper userMapper) {
         this.userDAO = userDAO;
+        this.userMapper = userMapper;
         createAdminIfNeeded();
     }
 
@@ -48,7 +52,7 @@ public class UserDbService {
         userDAO.delete(id);
     }
 
-    public String login(final Credentials credentials, HttpServletRequest request) {
+    public UserDto login(final Credentials credentials, HttpServletRequest request) {
         User user = userDAO.findByLogin(credentials.getLogin());
 
         if (user == null) throw new ForbiddenException("No user!");
@@ -59,7 +63,10 @@ public class UserDbService {
         request.getSession().setAttribute(TOKEN_KEY, token);
         request.getSession().setAttribute(USER_ROLE_KEY, user.getUserRole());
 
-        return token;
+        UserDto userDto = userMapper.mapToUserDto(user);
+        userDto.setToken(token);
+
+        return userDto;
     }
 
     private void createAdminIfNeeded() {
