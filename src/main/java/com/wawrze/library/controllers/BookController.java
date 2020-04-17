@@ -38,7 +38,7 @@ public class BookController {
         return bookMapper.mapToBookDto(service.getBook(bookId).orElseThrow(BookNotFoundException::new));
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateBook")
+    @RequestMapping(method = RequestMethod.POST, value = "updateBook")
     public BookDto updateBook(@RequestBody BookDto bookDto, HttpServletRequest request) {
         UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
         return bookMapper.mapToBookDto(service.saveBook(bookMapper.mapToBook(bookDto), userRole));

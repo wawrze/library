@@ -38,7 +38,7 @@ public class TitleController {
         return service.getTitle(titleId);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateTitle")
+    @RequestMapping(method = RequestMethod.POST, value = "updateTitle")
     public TitleDto updateTitle(@RequestBody TitleDto titleDto, HttpServletRequest request) {
         UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
         return titleMapper.mapToTitleDto(service.saveTitle(titleMapper.mapToTitle(titleDto), userRole));
