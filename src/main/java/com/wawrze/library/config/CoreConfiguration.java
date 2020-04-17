@@ -1,7 +1,9 @@
 package com.wawrze.library.config;
 
 import com.google.common.collect.Lists;
+import com.wawrze.library.dao.UserDAO;
 import com.wawrze.library.filters.AuthFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,10 +34,11 @@ import java.util.List;
 public class CoreConfiguration implements WebMvcConfigurer {
 
     @Bean
-    public FilterRegistrationBean authFilter() {
+    @Autowired
+    public FilterRegistrationBean authFilter(UserDAO userDAO) {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        registrationBean.setFilter(new AuthFilter());
-        registrationBean.addUrlPatterns("/books/updateBook", "/books/createBook", "/books/deleteBook", "/rents/*", "/title/updateTitle", "/title/createTitle", "/title/deleteTitle", "/users/*");
+        registrationBean.setFilter(new AuthFilter(userDAO));
+        registrationBean.addUrlPatterns("/books/updateBook", "/books/createBook", "/books/deleteBook", "/rents/*", "/title/updateTitle", "/title/createTitle", "/title/deleteTitle", "/users/*", "/account/logout");
         return registrationBean;
     }
 

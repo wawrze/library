@@ -42,10 +42,11 @@ public class UserController {
         return userMapper.mapToUserDto(service.getUser(userId, id, userRole).orElseThrow(UserNotFoundException::new));
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateUser")
+    @RequestMapping(method = RequestMethod.POST, value = "updateUser")
     public UserDto updateUser(@RequestBody UserDto userDto, HttpServletRequest request) {
         UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
-        return userMapper.mapToUserDto(service.saveUser(userMapper.mapToUser(userDto), userRole));
+        int id = (int) request.getSession().getAttribute(USER_ID_KEY);
+        return userMapper.mapToUserDto(service.saveUser(userMapper.mapToUser(userDto), userRole, id));
     }
 
     @RequestMapping(
@@ -55,7 +56,7 @@ public class UserController {
     )
     public void createUser(@RequestBody UserDto userDto, HttpServletRequest request) {
         UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
-        service.saveUser(userMapper.mapToUser(userDto), userRole);
+        service.saveUser(userMapper.mapToUser(userDto), userRole, -1);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteUser")

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.wawrze.library.filters.AuthFilter.*;
+import static com.wawrze.library.filters.AuthFilter.USER_ID_KEY;
 
 @Service
 @Transactional
@@ -42,8 +42,9 @@ public class UserDbService {
         return userDAO.findById(id);
     }
 
-    public User saveUser(final User user, final UserRole userRole) {
-        if (userRole == UserRole.USER) throw new ForbiddenException("Only librarian can manage users!");
+    public User saveUser(final User user, final UserRole userRole, final int userId) {
+        if (userId != user.getId() && userRole == UserRole.USER)
+            throw new ForbiddenException("Only librarian can manage users!");
         return userDAO.save(user);
     }
 
@@ -52,21 +53,28 @@ public class UserDbService {
         userDAO.delete(id);
     }
 
-    public UserDto login(final Credentials credentials, HttpServletRequest request) {
+    public UserDto login(final Credentials credentials) {
         User user = userDAO.findByLogin(credentials.getLogin());
 
         if (user == null) throw new ForbiddenException("No user!");
         if (!user.getPassword().equals(credentials.getPassword())) throw new ForbiddenException("Wrong password!");
 
         String token = UUID.randomUUID().toString();
-        request.getSession().setAttribute(USER_ID_KEY, user.getId());
-        request.getSession().setAttribute(TOKEN_KEY, token);
-        request.getSession().setAttribute(USER_ROLE_KEY, user.getUserRole());
+        user.setToken(token);
+        userDAO.save(user);
 
         UserDto userDto = userMapper.mapToUserDto(user);
         userDto.setToken(token);
 
         return userDto;
+    }
+
+    public void logout(HttpServletRequest request) {
+        int userId = (int) request.getSession().getAttribute(USER_ID_KEY);
+        User user = userDAO.findById(userId).orElseThrow(null);
+        user.setToken(null);
+        userDAO.save(user);
+        request.getSession().invalidate();
     }
 
     private void createAdminIfNeeded() {

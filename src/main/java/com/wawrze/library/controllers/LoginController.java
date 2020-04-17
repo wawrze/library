@@ -23,13 +23,13 @@ public class LoginController {
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE, value = "login")
-    public UserDto login(@RequestBody Credentials credentials, HttpServletRequest request) {
-        return service.login(credentials, request);
+    public UserDto login(@RequestBody Credentials credentials) {
+        return service.login(credentials);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "logout")
     public void logout(HttpServletRequest request) {
-        request.getSession().invalidate();
+        service.logout(request);
     }
 
 }

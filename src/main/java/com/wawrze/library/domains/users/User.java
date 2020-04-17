@@ -27,6 +27,8 @@ public class User {
     private Date accountCreationDate;
     @Column(name = "userRole", nullable = false)
     private UserRole userRole;
+    @Column(name = "token")
+    private String token;
 
     public User(Integer id, String login, String password, String firstName, String lastName, Date accountCreationDate, UserRole userRole) {
         this.id = id;
@@ -42,4 +44,7 @@ public class User {
         this.userRole = userRole;
     }
 
+    public void setToken(String token) {
+        this.token = token;
+    }
 }
