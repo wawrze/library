@@ -41,6 +41,13 @@ public class UserController {
         return userMapper.mapToUserDtoList(service.getLibrarians(userRole));
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "getAdmins")
+    public List<UserDto> getAdmins(HttpServletRequest request) {
+        UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
+        return userMapper.mapToUserDtoList(service.getAdmins(userRole));
+    }
+
+
     @RequestMapping(method = RequestMethod.GET, value = "getUser")
     public UserDto getUser(@RequestParam Integer userId, HttpServletRequest request) throws UserNotFoundException {
         UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
