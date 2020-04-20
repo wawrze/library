@@ -13,9 +13,6 @@ import java.util.Optional;
 @Repository
 public interface UserDAO extends CrudRepository<User, Integer> {
 
-    @Override
-    List<User> findAll();
-
     Optional<User> findById(Integer id);
 
     @Override
@@ -29,5 +26,7 @@ public interface UserDAO extends CrudRepository<User, Integer> {
     User findByToken(String token);
 
     Integer countAllByUserRoleEquals(UserRole userRole);
+
+    List<User> findAllByUserRoleEquals(UserRole userRole);
 
 }

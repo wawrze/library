@@ -1,10 +1,12 @@
 package com.wawrze.library.domains.users;
 
+import com.wawrze.library.domains.rents.Rent;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -29,6 +31,9 @@ public class User {
     private UserRole userRole;
     @Column(name = "token")
     private String token;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OrderColumn(name = "user_index")
+    private Set<Rent> rents;
 
     public User(Integer id, String login, String password, String firstName, String lastName, Date accountCreationDate, UserRole userRole) {
         this.id = id;
