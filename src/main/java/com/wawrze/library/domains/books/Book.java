@@ -26,8 +26,8 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "bookTitle")
     private Title title;
-    @OneToOne
-    @JoinColumn(name = "rentId")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "book")
+    @JoinColumn(name = "rent_index")
     private Rent rent;
     @Column(name = "rentDays")
     private Integer rentDays;

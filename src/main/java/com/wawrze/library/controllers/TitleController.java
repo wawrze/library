@@ -33,6 +33,11 @@ public class TitleController {
         return titleMapper.mapToTitleDtoList(service.getAllTitles());
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "getTitlesWithAvailableBooks")
+    public List<TitleDto> getTitlesWithAvailableBooks() {
+        return titleMapper.mapToTitleDtoList(service.getTitlesWithAvailableBooks());
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "getTitle")
     public TitleDto getTitle(@RequestParam Integer titleId) throws TitleNotFoundException {
         return service.getTitle(titleId);

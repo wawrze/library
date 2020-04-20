@@ -37,6 +37,10 @@ public class TitleDbService {
         return titleDAO.findAll();
     }
 
+    public List<Title> getTitlesWithAvailableBooks() {
+        return titleDAO.getTitlesWithAvailableBooks();
+    }
+
     public TitleDto getTitle(final Integer id) throws TitleNotFoundException {
         Title title = titleDAO.findById(id).orElseThrow(TitleNotFoundException::new);
         List<Book> books = bookDAO.getBooksByTitleId(title.getId());

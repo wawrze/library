@@ -10,6 +10,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "titles")
+@NamedNativeQuery(
+        name = "Title.getTitlesWithAvailableBooks",
+        query = "SELECT * FROM titles t WHERE t.id IN (SELECT book_title FROM books WHERE id NOT IN (SELECT book_id FROM rents))",
+        resultClass = Title.class
+)
 public class Title {
 
     @Id

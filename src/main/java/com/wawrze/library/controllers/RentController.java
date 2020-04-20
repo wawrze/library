@@ -16,7 +16,6 @@ import java.util.List;
 
 import static com.wawrze.library.filters.AuthFilter.USER_ID_KEY;
 import static com.wawrze.library.filters.AuthFilter.USER_ROLE_KEY;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/rents")
@@ -57,11 +56,7 @@ public class RentController {
         return rentMapper.mapToRentDto(service.updateRent(rentMapper.mapToRent(rentDto), userRole));
     }
 
-    @RequestMapping(
-            method = RequestMethod.POST,
-            value = "createRent",
-            consumes = APPLICATION_JSON_VALUE
-    )
+    @RequestMapping(method = RequestMethod.POST, value = "createRent")
     public void createRent(@RequestParam Integer userId, @RequestParam Integer bookId, HttpServletRequest request) throws BookNotFoundException, UserNotFoundException {
         UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
         service.createRent(userId, bookId, userRole);
