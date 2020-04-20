@@ -32,7 +32,13 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, value = "getUsers")
     public List<UserDto> getUsers(HttpServletRequest request) {
         UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
-        return userMapper.mapToUserDtoList(service.getAllUsers(userRole));
+        return userMapper.mapToUserDtoList(service.getUsers(userRole));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "getLibrarians")
+    public List<UserDto> getLibrarians(HttpServletRequest request) {
+        UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
+        return userMapper.mapToUserDtoList(service.getLibrarians(userRole));
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getUser")

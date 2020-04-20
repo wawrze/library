@@ -34,9 +34,14 @@ public class UserDbService {
         createAdminIfNeeded();
     }
 
-    public List<User> getAllUsers(final UserRole userRole) {
+    public List<User> getUsers(final UserRole userRole) {
         if (userRole == UserRole.USER) throw new ForbiddenException("Only librarian can manage users!");
         return userDAO.findAllByUserRoleEquals(UserRole.USER);
+    }
+
+    public List<User> getLibrarians(final UserRole userRole) {
+        if (userRole != UserRole.ADMIN) throw new ForbiddenException("Only admin can manage librarians!");
+        return userDAO.findAllByUserRoleEquals(UserRole.LIBRARIAN);
     }
 
     public Optional<User> getUser(final Integer id, final int userId, final UserRole userRole) {
