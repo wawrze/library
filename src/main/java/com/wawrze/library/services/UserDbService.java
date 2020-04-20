@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -44,13 +45,16 @@ public class UserDbService {
     }
 
     public User saveUser(final User user, final UserRole userRole, final int userId) {
-        if (userId != user.getId() && userRole == UserRole.USER)
+        if (user.getId() != null && userId != user.getId() && userRole == UserRole.USER)
             throw new ForbiddenException("Only librarian can manage users!");
         try {
             User userInDb = userDAO.findById(user.getId()).orElseThrow(UserNotFoundException::new);
             user.setToken(userInDb.getToken());
             if (user.getPassword() == null || user.getPassword().isEmpty()) user.setPassword(userInDb.getPassword());
-        } catch (UserNotFoundException ignored) {
+        } catch (UserNotFoundException e) {
+            User userInDb = userDAO.findByLogin(user.getLogin());
+            if (userInDb != null) throw new ForbiddenException("Login occupied!");
+            user.setAccountCreationDate(new Date(System.currentTimeMillis()));
         }
         return userDAO.save(user);
     }
