@@ -6,6 +6,7 @@ import com.wawrze.library.domains.users.User;
 import com.wawrze.library.domains.users.UserDto;
 import com.wawrze.library.domains.users.UserRole;
 import com.wawrze.library.exeptions.ForbiddenException;
+import com.wawrze.library.exeptions.UserNotFoundException;
 import com.wawrze.library.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,12 @@ public class UserDbService {
     public User saveUser(final User user, final UserRole userRole, final int userId) {
         if (userId != user.getId() && userRole == UserRole.USER)
             throw new ForbiddenException("Only librarian can manage users!");
+        try {
+            User userInDb = userDAO.findById(user.getId()).orElseThrow(UserNotFoundException::new);
+            user.setToken(userInDb.getToken());
+            if (user.getPassword() == null || user.getPassword().isEmpty()) user.setPassword(userInDb.getPassword());
+        } catch (UserNotFoundException ignored) {
+        }
         return userDAO.save(user);
     }
 
