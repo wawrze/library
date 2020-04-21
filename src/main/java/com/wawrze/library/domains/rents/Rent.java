@@ -21,7 +21,7 @@ import java.sql.Date;
 public class Rent {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "id")
     private Integer id;
     @ManyToOne

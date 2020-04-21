@@ -28,10 +28,10 @@ public class UserDbService {
     private final UserMapper userMapper;
 
     @Autowired
-    public UserDbService(UserDAO userDAO, UserMapper userMapper) {
+    public UserDbService(UserDAO userDAO, UserMapper userMapper, DataBaseFillerService dbFillerService) {
         this.userDAO = userDAO;
         this.userMapper = userMapper;
-        createAdminIfNeeded();
+        if (userDAO.count() == 0) dbFillerService.fillDb();
     }
 
     public List<User> getUsers(final UserRole userRole) {
@@ -96,21 +96,6 @@ public class UserDbService {
         user.setToken(null);
         userDAO.save(user);
         request.getSession().invalidate();
-    }
-
-    private void createAdminIfNeeded() {
-        if (userDAO.countAllByUserRoleEquals(UserRole.ADMIN) == 0) {
-            User admin = new User(
-                    null,
-                    "admin",
-                    "e879a6bad47bb50ef56a957edd1c3c78b26d77ebb8e5547cd71fdca0fdae834fbe7b914ad71e3359fdf1cc4f0934ddd145bcc8e1b3ac841efa4db2a48c1b120f",
-                    "Admin",
-                    "Admin",
-                    null,
-                    UserRole.ADMIN
-            );
-            userDAO.save(admin);
-        }
     }
 
 }

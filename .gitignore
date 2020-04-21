@@ -4,6 +4,7 @@
 /bin/
 **/*.class
 *.dat
+*.xlsx
 
 ### STS ###
 .apt_generated

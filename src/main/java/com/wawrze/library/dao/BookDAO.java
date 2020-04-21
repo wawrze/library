@@ -28,4 +28,6 @@ public interface BookDAO extends CrudRepository<Book, Integer> {
     @Query
     List<Book> getBooksByTitleId(@Param("titleId") int titleId);
 
+    @Override
+    void deleteAll();
 }

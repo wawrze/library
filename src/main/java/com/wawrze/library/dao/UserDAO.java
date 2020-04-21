@@ -25,8 +25,11 @@ public interface UserDAO extends CrudRepository<User, Integer> {
 
     User findByToken(String token);
 
-    Integer countAllByUserRoleEquals(UserRole userRole);
+    @Override
+    long count();
 
     List<User> findAllByUserRoleEquals(UserRole userRole);
 
+    @Override
+    void deleteAll();
 }

@@ -27,4 +27,6 @@ public interface TitleDAO extends CrudRepository<Title, Integer> {
     @Query
     List<Title> getTitlesWithAvailableBooks();
 
+    @Override
+    void deleteAll();
 }
