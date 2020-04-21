@@ -25,6 +25,8 @@ public interface RentDAO extends CrudRepository<Rent, Integer> {
     @Override
     void delete(Integer id);
 
+    Optional<Rent> findByBook_Id(int bookId);
+
     @Query
     List<Rent> getRentsByUserId(@Param("userId") int userId);
 

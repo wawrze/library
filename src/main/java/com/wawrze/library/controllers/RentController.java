@@ -50,6 +50,12 @@ public class RentController {
         return rentMapper.mapToRentDto(service.getRent(rentId, userRole).orElseThrow(RentNotFoundException::new));
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "getRentByBookId")
+    public RentDto getRentByBookId(@RequestParam Integer bookId, HttpServletRequest request) throws RentNotFoundException {
+        UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);
+        return rentMapper.mapToRentDto(service.getRentByBookId(bookId, userRole).orElseThrow(RentNotFoundException::new));
+    }
+
     @RequestMapping(method = RequestMethod.PUT, value = "updateRent")
     public RentDto updateRent(@RequestBody RentDto rentDto, HttpServletRequest request) {
         UserRole userRole = (UserRole) request.getSession().getAttribute(USER_ROLE_KEY);

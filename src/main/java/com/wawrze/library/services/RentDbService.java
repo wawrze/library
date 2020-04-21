@@ -49,6 +49,11 @@ public class RentDbService {
         return rentDAO.findById(id);
     }
 
+    public Optional<Rent> getRentByBookId(final Integer bookId, final UserRole userRole) {
+        if (userRole == UserRole.USER) throw new ForbiddenException("Only librarian can manage rents!");
+        return rentDAO.findByBook_Id(bookId);
+    }
+
     public Rent updateRent(final Rent rent, final UserRole userRole) {
         if (userRole == UserRole.USER) throw new ForbiddenException("Only librarian can manage rents!");
         return rentDAO.save(rent);

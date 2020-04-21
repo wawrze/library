@@ -31,7 +31,7 @@ public class User {
     private UserRole userRole;
     @Column(name = "token")
     private String token;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(mappedBy = "user")
     @OrderColumn(name = "user_index")
     private Set<Rent> rents;
 
